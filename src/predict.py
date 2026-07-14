@@ -9,31 +9,29 @@ from src.preprocess import preprocess_data
 from src.feature_engineering import engineer_features
 from src.encoding import encode_features
 from src.transform import transform_data
-from src.persona_engine import enrich_cluster_output
-
-from src.recommendation_engine import get_recommendation
+from src.business_intelligence import generate_business_intelligence
 
 
 # ---------------------------------
 # Load trained artifacts
 # ---------------------------------
-kmeans_model = joblib.load(KMEANS_MODEL_PATH)
 
+kmeans_model = joblib.load(KMEANS_MODEL_PATH)
 scaler = joblib.load(SCALER_PATH)
 
 
 # ---------------------------------
 # Single customer prediction
 # ---------------------------------
+
 def predict_customer_segment(df):
 
-    # ---------------------------------
-    # Apply pipeline
-    # ---------------------------------
+    # -----------------------------
+    # Data pipeline
+    # -----------------------------
+
     df = preprocess_data(df)
-
     df = engineer_features(df)
-
     df = encode_features(df)
 
     df_scaled, _ = transform_data(
@@ -42,21 +40,27 @@ def predict_customer_segment(df):
         fit=False
     )
 
-    # ---------------------------------
+    # -----------------------------
     # Predict cluster
-    # ---------------------------------
+    # -----------------------------
+
     cluster_id = int(
         kmeans_model.predict(df_scaled)[0]
     )
 
-    # ---------------------------------
-    # Business enrichment
-    # ---------------------------------
-    persona = enrich_cluster_output(cluster_id)
+    # -----------------------------
+    # Business Intelligence
+    # -----------------------------
+
+    business = generate_business_intelligence(cluster_id)
+
+    # -----------------------------
+    # Final Result
+    # -----------------------------
 
     result = {
         "cluster_id": cluster_id,
-        **persona
+        **business
     }
 
     return result
