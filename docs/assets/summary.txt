@@ -1,0 +1,11 @@
+## Workflow Summary
+
+The **Customer Segmentation Intelligence System** transforms raw customer data into actionable business intelligence through a structured prediction and enrichment pipeline.
+
+The workflow begins when a user submits customer data, either by uploading a CSV file for batch processing or by sending individual customer records through the API. The system first validates the incoming data to ensure the required schema and data quality standards are met. Once validated, the data undergoes the same preprocessing pipeline used during model development, including feature creation, encoding, and scaling.
+
+The processed data is then passed to the trained K-Means clustering model, which assigns each customer to one of six behavioral segments. The resulting `cluster_id` is enriched by the **Persona Engine**, which translates the numerical prediction into a business-friendly customer profile describing the customer's behavior, value, and recommended strategic action.
+
+Next, the **Recommendation Engine** generates marketing objectives, business opportunities, potential risks, and the most appropriate campaign for the identified customer segment. The **Workflow Engine** then assigns the operational workflow, including the workflow name, trigger condition, and execution priority, enabling the recommendation to be integrated directly into business processes.
+
+Finally, all outputs are combined into a single enriched customer intelligence record and returned through the API. Marketing and CRM teams can immediately use this information to personalize customer communication, launch targeted campaigns, automate engagement workflows, improve customer retention, and maximize customer lifetime value.
