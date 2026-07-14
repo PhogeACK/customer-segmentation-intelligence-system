@@ -1,6 +1,5 @@
 import streamlit as st
 
-
 # --------------------------------------------------
 # Page Configuration
 # --------------------------------------------------
@@ -15,16 +14,11 @@ st.set_page_config(
 # --------------------------------------------------
 st.title("📊 Customer Segmentation Intelligence System")
 
-st.markdown(
-    """
-An end-to-end Machine Learning application that transforms customer data into
-actionable business intelligence using behavioral segmentation,
-persona generation, marketing recommendations, and workflow automation.
+st.markdown("""
+An end-to-end Machine Learning application that transforms raw customer data into actionable business intelligence through behavioral segmentation, persona generation, marketing recommendations, and workflow automation.
 
-This dashboard represents **Version 2** of the project, extending the original
-FastAPI prediction service with an interactive business interface.
-"""
-)
+This dashboard represents **Version 2** of the project and extends the original FastAPI prediction service with an interactive business interface.
+""")
 
 st.divider()
 
@@ -55,7 +49,7 @@ st.header("Current Capabilities")
 col1, col2 = st.columns(2)
 
 with col1:
-    st.subheader("Completed")
+    st.subheader("✅ Completed")
     st.success("Customer Segmentation")
     st.success("Business Personas")
     st.success("Marketing Recommendations")
@@ -63,7 +57,7 @@ with col1:
     st.success("FastAPI Prediction Service")
 
 with col2:
-    st.subheader("Coming Next")
+    st.subheader("🚀 Coming Next")
     st.info("Single Customer Prediction")
     st.info("Batch CSV Upload")
     st.info("Interactive Analytics Dashboard")
@@ -73,12 +67,12 @@ with col2:
 st.divider()
 
 # --------------------------------------------------
-# Architecture
+# Prediction Pipeline
 # --------------------------------------------------
 st.header("Prediction Pipeline")
 
-st.markdown("""
-```text
+st.code(
+"""
 Customer Data
       │
       ▼
@@ -101,3 +95,35 @@ Business Intelligence Layer
       │
       ▼
 Business Output
+""",
+language="text"
+)
+
+st.divider()
+
+# --------------------------------------------------
+# Project Roadmap
+# --------------------------------------------------
+st.header("Version 2 Roadmap")
+
+roadmap = [
+    "Interactive customer prediction",
+    "Batch CSV upload",
+    "Interactive analytics dashboard",
+    "Customer segment visualizations",
+    "Business KPI dashboard",
+    "Download prediction reports",
+    "Cloud deployment via Streamlit Community Cloud"
+]
+
+for item in roadmap:
+    st.checkbox(item, value=False, disabled=True)
+
+st.divider()
+
+# --------------------------------------------------
+# Footer
+# --------------------------------------------------
+st.caption(
+    "Customer Segmentation Intelligence System | Version 2.0 | Built with Streamlit"
+)
