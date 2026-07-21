@@ -21,6 +21,7 @@ st.header("Customer Profile")
 col1, col2 = st.columns(2)
 
 with col1:
+
     year_birth = st.number_input(
         "Year of Birth",
         min_value=1893,
@@ -40,6 +41,7 @@ with col1:
     )
 
 with col2:
+
     marital_status = st.selectbox(
         "Marital Status",
         [
@@ -72,6 +74,7 @@ st.header("Household")
 col1, col2 = st.columns(2)
 
 with col1:
+
     kidhome = st.slider(
         "Kids at Home",
         0,
@@ -80,6 +83,7 @@ with col1:
     )
 
 with col2:
+
     teenhome = st.slider(
         "Teenagers at Home",
         0,
@@ -98,11 +102,13 @@ st.header("Customer Activity")
 col1, col2 = st.columns(2)
 
 with col1:
+
     dt_customer = st.date_input(
         "Customer Since"
     )
 
 with col2:
+
     recency = st.slider(
         "Days Since Last Purchase",
         0,
@@ -113,7 +119,7 @@ with col2:
 st.divider()
 
 # =====================================
-# Spending
+# Product Spending
 # =====================================
 
 st.header("Product Spending")
@@ -122,43 +128,15 @@ col1, col2 = st.columns(2)
 
 with col1:
 
-    mnt_wines = st.number_input(
-        "Wine",
-        min_value=0,
-        value=175
-    )
-
-    mnt_meat = st.number_input(
-        "Meat",
-        min_value=0,
-        value=67
-    )
-
-    mnt_sweets = st.number_input(
-        "Sweets",
-        min_value=0,
-        value=8
-    )
+    mnt_wines = st.number_input("Wine", min_value=0, value=175)
+    mnt_meat = st.number_input("Meat", min_value=0, value=67)
+    mnt_sweets = st.number_input("Sweets", min_value=0, value=8)
 
 with col2:
 
-    mnt_fruits = st.number_input(
-        "Fruits",
-        min_value=0,
-        value=8
-    )
-
-    mnt_fish = st.number_input(
-        "Fish",
-        min_value=0,
-        value=12
-    )
-
-    mnt_gold = st.number_input(
-        "Gold",
-        min_value=0,
-        value=24
-    )
+    mnt_fruits = st.number_input("Fruits", min_value=0, value=8)
+    mnt_fish = st.number_input("Fish", min_value=0, value=12)
+    mnt_gold = st.number_input("Gold", min_value=0, value=24)
 
 st.divider()
 
@@ -172,35 +150,13 @@ col1, col2 = st.columns(2)
 
 with col1:
 
-    deals = st.slider(
-        "Deals Purchases",
-        0,
-        15,
-        2
-    )
-
-    web = st.slider(
-        "Web Purchases",
-        0,
-        27,
-        4
-    )
+    deals = st.slider("Deals Purchases", 0, 15, 2)
+    web = st.slider("Web Purchases", 0, 27, 4)
 
 with col2:
 
-    catalog = st.slider(
-        "Catalog Purchases",
-        0,
-        28,
-        2
-    )
-
-    store = st.slider(
-        "Store Purchases",
-        0,
-        13,
-        5
-    )
+    catalog = st.slider("Catalog Purchases", 0, 28, 2)
+    store = st.slider("Store Purchases", 0, 13, 5)
 
 website_visits = st.slider(
     "Website Visits Per Month",
@@ -224,7 +180,6 @@ accepted_cmp4 = st.checkbox("Accepted Campaign 4")
 accepted_cmp5 = st.checkbox("Accepted Campaign 5")
 
 complain = st.checkbox("Customer Complaint")
-
 response = st.checkbox("Accepted Latest Campaign")
 
 st.divider()
@@ -233,6 +188,10 @@ predict_button = st.button(
     "Predict Customer Segment",
     use_container_width=True
 )
+
+# =====================================
+# Prediction
+# =====================================
 
 if predict_button:
 
@@ -277,9 +236,67 @@ if predict_button:
 
         result = predict_customer_segment(customer_df)
 
+        st.success("Prediction completed successfully!")
+
         st.divider()
-        st.subheader("Prediction Result")
-        st.json(result)
+
+        st.header("🎯 Customer Segment")
+
+        st.subheader(result["segment_name"])
+
+        st.write(result["behavior"])
+
+        st.divider()
+
+        st.header("📈 Business Value")
+
+        st.write(result["business_value"])
+
+        st.divider()
+
+        st.header("💡 Recommended Action")
+
+        st.write(result["recommended_action"])
+
+        st.divider()
+
+        st.header("🎯 Primary Goal")
+
+        st.write(result["primary_goal"])
+
+        st.divider()
+
+        st.header("🚀 Opportunity")
+
+        st.write(result["opportunity"])
+
+        st.divider()
+
+        st.header("⚠ Risk")
+
+        st.write(result["risk"])
+
+        st.divider()
+
+        st.header("📣 Recommended Campaign")
+
+        st.write(result["recommended_campaign"])
+
+        st.divider()
+
+        st.header("⚙ Recommended Workflow")
+
+        st.write(result["workflow_name"])
+
+        st.caption(result["workflow_trigger"])
+
+        st.divider()
+
+        st.metric(
+            label="Priority",
+            value=result["priority"]
+        )
 
     except Exception as e:
+
         st.error(f"Prediction failed: {e}")
