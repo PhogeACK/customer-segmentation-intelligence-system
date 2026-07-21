@@ -1,4 +1,7 @@
 import streamlit as st
+import pandas as pd
+
+from src.predict import predict_customer_segment
 
 st.title("👤 Single Customer Prediction")
 
@@ -230,3 +233,53 @@ predict_button = st.button(
     "Predict Customer Segment",
     use_container_width=True
 )
+
+if predict_button:
+
+    try:
+
+        customer_df = pd.DataFrame([{
+
+            "Year_Birth": year_birth,
+            "Education": education,
+            "Marital_Status": marital_status,
+            "Income": income,
+
+            "Kidhome": kidhome,
+            "Teenhome": teenhome,
+
+            "Dt_Customer": dt_customer.strftime("%Y-%m-%d"),
+            "Recency": recency,
+
+            "MntWines": mnt_wines,
+            "MntFruits": mnt_fruits,
+            "MntMeatProducts": mnt_meat,
+            "MntFishProducts": mnt_fish,
+            "MntSweetProducts": mnt_sweets,
+            "MntGoldProds": mnt_gold,
+
+            "NumDealsPurchases": deals,
+            "NumWebPurchases": web,
+            "NumCatalogPurchases": catalog,
+            "NumStorePurchases": store,
+            "NumWebVisitsMonth": website_visits,
+
+            "AcceptedCmp1": int(accepted_cmp1),
+            "AcceptedCmp2": int(accepted_cmp2),
+            "AcceptedCmp3": int(accepted_cmp3),
+            "AcceptedCmp4": int(accepted_cmp4),
+            "AcceptedCmp5": int(accepted_cmp5),
+
+            "Complain": int(complain),
+            "Response": int(response)
+
+        }])
+
+        result = predict_customer_segment(customer_df)
+
+        st.divider()
+        st.subheader("Prediction Result")
+        st.json(result)
+
+    except Exception as e:
+        st.error(f"Prediction failed: {e}")
