@@ -1,28 +1,47 @@
 import streamlit as st
 
-st.title("🏠 Customer Segmentation Intelligence System")
+st.title("📊 Customer Segmentation Intelligence System")
 
-st.write(
-    """
-Welcome to the Customer Segmentation Intelligence System.
+st.markdown("""
+An end-to-end Machine Learning application that transforms raw customer data into actionable business intelligence through behavioral segmentation, persona generation, marketing recommendations, and workflow automation.
 
-This application transforms raw customer data into actionable business intelligence using
-machine learning-based customer segmentation.
-
-Use the navigation menu on the left to explore the available features.
-"""
-)
+This dashboard represents **Version 2** of the project and extends the original FastAPI prediction service with an interactive business interface.
+""")
 
 st.divider()
 
-st.subheader("Available Modules")
+st.header("System Overview")
 
 st.markdown("""
-- 👤 **Single Prediction** — Predict a customer segment for an individual customer.
+The application processes customer records through a complete machine learning pipeline:
 
-- 📁 **Batch Prediction** — Upload a CSV file and enrich an entire customer dataset.
-
-- 📈 **Analytics Dashboard** — Explore segmentation results through interactive visualizations.
-
-- ℹ️ **About** — Learn more about the project architecture and technology stack.
+- Data preprocessing
+- Feature engineering
+- Feature transformation & scaling
+- K-Means customer segmentation
+- Persona generation
+- Business recommendation generation
+- Workflow recommendation generation
 """)
+
+st.divider()
+
+st.header("Current Capabilities")
+
+col1, col2 = st.columns(2)
+
+with col1:
+    st.subheader("Completed")
+    st.success("Customer Segmentation")
+    st.success("Business Personas")
+    st.success("Marketing Recommendations")
+    st.success("Workflow Recommendations")
+    st.success("FastAPI Prediction Service")
+
+with col2:
+    st.subheader("Coming Next")
+    st.info("Single Customer Prediction")
+    st.info("Batch CSV Upload")
+    st.info("Interactive Analytics Dashboard")
+    st.info("Cluster Visualizations")
+    st.info("Download Prediction Results")

@@ -6,17 +6,10 @@ st.set_page_config(
     layout="wide"
 )
 
-st.title("📊 Customer Segmentation Intelligence System")
+st.sidebar.success("Select a page above.")
 
-st.markdown("""
-Welcome!
+st.title("Customer Segmentation Intelligence System")
 
-Use the navigation menu on the left to explore the application.
-
-This project transforms raw customer data into actionable business intelligence using:
-
-- Customer Segmentation
-- Persona Generation
-- Marketing Recommendations
-- Workflow Automation
-""")
+st.write(
+    "Welcome! Select a page from the sidebar to explore the application."
+)
