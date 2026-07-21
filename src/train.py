@@ -55,6 +55,8 @@ def train_pipeline():
     # ---------------------------------
     kmeans_model = train_kmeans(df_scaled)
 
+    print(type(kmeans_model))
+
     print("KMeans training completed")
 
     # ---------------------------------
