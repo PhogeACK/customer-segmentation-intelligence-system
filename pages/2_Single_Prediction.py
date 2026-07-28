@@ -234,69 +234,129 @@ if predict_button:
 
         }])
 
-        result = predict_customer_segment(customer_df)
+                result = predict_customer_segment(customer_df)
 
         st.success("Prediction completed successfully!")
 
         st.divider()
 
+        # =====================================
+        # Customer Segment
+        # =====================================
+
         st.header("🎯 Customer Segment")
 
         st.subheader(result["segment_name"])
 
-        st.write(result["behavior"])
+        metric1, metric2, metric3, metric4 = st.columns(4)
+
+        with metric1:
+            st.metric(
+                "Cluster",
+                result["cluster_id"]
+            )
+        
+        with metric2:
+            st.metric(
+                "Priority",
+                result["priority"]
+            )
+        
+        with metric3:
+            st.metric(
+                "Campaign",
+                result["recommended_campaign"]
+            )
+        
+        with metric4:
+            st.metric(
+                "Workflow",
+                result["workflow_name"]
+            )
+        
+        st.divider()
+
+        # =====================================
+        # Executive Summary
+        # =====================================
+
+        col1, col2 = st.columns(2)
+
+        with col1:
+
+            st.subheader("📈 Business Value")
+
+            st.info(result["business_value"])
+
+        with col2:
+
+            st.subheader("🔥 Priority")
+
+            st.metric(
+                label="Priority",
+                value=result["priority"]
+            )
 
         st.divider()
 
-        st.header("📈 Business Value")
+        # =====================================
+        # Business Objectives
+        # =====================================
 
-        st.write(result["business_value"])
+        col1, col2 = st.columns(2)
 
-        st.divider()
+        with col1:
 
-        st.header("💡 Recommended Action")
+            st.subheader("💡 Recommended Action")
 
-        st.write(result["recommended_action"])
+            st.success(result["recommended_action"])
 
-        st.divider()
+        with col2:
 
-        st.header("🎯 Primary Goal")
+            st.subheader("🎯 Primary Goal")
 
-        st.write(result["primary_goal"])
-
-        st.divider()
-
-        st.header("🚀 Opportunity")
-
-        st.write(result["opportunity"])
+            st.info(result["primary_goal"])
 
         st.divider()
 
-        st.header("⚠ Risk")
+        # =====================================
+        # Opportunity / Risk
+        # =====================================
 
-        st.write(result["risk"])
+        col1, col2 = st.columns(2)
+
+        with col1:
+
+            st.subheader("🚀 Opportunity")
+
+            st.success(result["opportunity"])
+
+        with col2:
+
+            st.subheader("⚠ Risk")
+
+            st.warning(result["risk"])
 
         st.divider()
 
-        st.header("📣 Recommended Campaign")
+        # =====================================
+        # Campaign
+        # =====================================
 
-        st.write(result["recommended_campaign"])
+        st.subheader("📣 Recommended Campaign")
 
-        st.divider()
-
-        st.header("⚙ Recommended Workflow")
-
-        st.write(result["workflow_name"])
-
-        st.caption(result["workflow_trigger"])
+        st.info(result["recommended_campaign"])
 
         st.divider()
 
-        st.metric(
-            label="Priority",
-            value=result["priority"]
+        # =====================================
+        # Workflow
+        # =====================================
+
+        st.subheader("⚙ Recommended Workflow")
+
+        st.success(result["workflow_name"])
+
+        st.caption(
+            f"Trigger: {result['workflow_trigger']}"
         )
-
-    except Exception as e:
-
-        st.error(f"Prediction failed: {e}")
