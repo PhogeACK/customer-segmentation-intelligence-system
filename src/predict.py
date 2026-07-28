@@ -1,3 +1,4 @@
+import pandas as pd
 import joblib
 
 from src.config import (
@@ -71,3 +72,53 @@ def predict_customer_segment(df):
     }
 
     return result
+
+def predict_batch(df):
+
+    # -----------------------------
+    # Data pipeline
+    # -----------------------------
+
+    df = preprocess_data(df)
+    df = engineer_features(df)
+    df = encode_features(df)
+
+    df_scaled, _ = transform_data(
+        df,
+        scaler=scaler,
+        fit=False
+    )
+
+    # -----------------------------
+    # Predict all customers
+    # -----------------------------
+
+    cluster_ids = kmeans_model.predict(df_scaled)
+
+    # -----------------------------
+    # Build output
+    # -----------------------------
+
+    results = df.copy()
+
+    results["cluster_id"] = cluster_ids
+
+    business_rows = []
+
+    for cluster_id in cluster_ids:
+
+        business_rows.append(
+            generate_business_intelligence(int(cluster_id))
+        )
+
+    business_df = pd.DataFrame(business_rows)
+
+    results = pd.concat(
+        [
+            results.reset_index(drop=True),
+            business_df.reset_index(drop=True)
+        ],
+        axis=1
+    )
+
+    return results
