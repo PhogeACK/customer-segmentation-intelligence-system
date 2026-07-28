@@ -234,7 +234,7 @@ if predict_button:
 
         }])
 
-                result = predict_customer_segment(customer_df)
+        result = predict_customer_segment(customer_df)
 
         st.success("Prediction completed successfully!")
 
