@@ -248,32 +248,22 @@ if predict_button:
 
         st.subheader(result["segment_name"])
 
+        st.write(result["behavior"])
+
         metric1, metric2, metric3, metric4 = st.columns(4)
 
         with metric1:
-            st.metric(
-                "Cluster",
-                result["cluster_id"]
-            )
-        
+            st.metric("Cluster", result["cluster_id"])
+
         with metric2:
-            st.metric(
-                "Priority",
-                result["priority"]
-            )
-        
+            st.metric("Priority", result["priority"])
+
         with metric3:
-            st.metric(
-                "Campaign",
-                result["recommended_campaign"]
-            )
-        
+            st.metric("Campaign", result["recommended_campaign"])
+
         with metric4:
-            st.metric(
-                "Workflow",
-                result["workflow_name"]
-            )
-        
+            st.metric("Workflow", result["workflow_name"])
+
         st.divider()
 
         # =====================================
@@ -283,19 +273,12 @@ if predict_button:
         col1, col2 = st.columns(2)
 
         with col1:
-
             st.subheader("📈 Business Value")
-
             st.info(result["business_value"])
 
         with col2:
-
             st.subheader("🔥 Priority")
-
-            st.metric(
-                label="Priority",
-                value=result["priority"]
-            )
+            st.metric("Priority", result["priority"])
 
         st.divider()
 
@@ -306,15 +289,11 @@ if predict_button:
         col1, col2 = st.columns(2)
 
         with col1:
-
             st.subheader("💡 Recommended Action")
-
             st.success(result["recommended_action"])
 
         with col2:
-
             st.subheader("🎯 Primary Goal")
-
             st.info(result["primary_goal"])
 
         st.divider()
@@ -326,15 +305,11 @@ if predict_button:
         col1, col2 = st.columns(2)
 
         with col1:
-
             st.subheader("🚀 Opportunity")
-
             st.success(result["opportunity"])
 
         with col2:
-
             st.subheader("⚠ Risk")
-
             st.warning(result["risk"])
 
         st.divider()
@@ -344,7 +319,6 @@ if predict_button:
         # =====================================
 
         st.subheader("📣 Recommended Campaign")
-
         st.info(result["recommended_campaign"])
 
         st.divider()
@@ -354,9 +328,8 @@ if predict_button:
         # =====================================
 
         st.subheader("⚙ Recommended Workflow")
-
         st.success(result["workflow_name"])
+        st.caption(f"Trigger: {result['workflow_trigger']}")
 
-        st.caption(
-            f"Trigger: {result['workflow_trigger']}"
-        )
+    except Exception as e:
+        st.error(f"Prediction failed: {e}")
