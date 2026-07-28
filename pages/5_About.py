@@ -121,6 +121,6 @@ Specializing in Machine Learning, Customer Analytics, Predictive Modeling, and B
 
 This project was developed as a portfolio application demonstrating the complete lifecycle of an end-to-end data science solution—from raw customer data to executive business insights.
 """
-
+)
 
 
