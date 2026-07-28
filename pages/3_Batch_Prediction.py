@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
-import requests
+
+from src.predict import predict_batch
 
 st.title("📂 Batch Customer Prediction")
 
@@ -60,11 +61,9 @@ if uploaded_file is not None:
     ]
 
     missing_columns = [
-
         col
         for col in required_columns
         if col not in df.columns
-
     ]
 
     st.subheader("Dataset Preview")
@@ -77,14 +76,12 @@ if uploaded_file is not None:
     col1, col2 = st.columns(2)
 
     with col1:
-
         st.metric(
             "Rows",
             f"{len(df):,}"
         )
 
     with col2:
-
         st.metric(
             "Columns",
             len(df.columns)
@@ -111,131 +108,122 @@ if uploaded_file is not None:
 
         if predict_button:
 
-            with st.spinner(
-                "Running customer segmentation..."
-            ):
-
-                uploaded_file.seek(0)
-
-                response = requests.post(
-                    "http://127.0.0.1:8000/predict_batch",
-                    files={
-                        "file": (
-                            uploaded_file.name,
-                            uploaded_file,
-                            "text/csv"
-                        )
-                    }
-                )
-
-            if response.status_code == 200:
-
+            try:
+        
+                with st.spinner(
+                    "Running customer segmentation..."
+                ):
+        
+                    uploaded_file.seek(0)
+        
+                    df = pd.read_csv(uploaded_file)
+        
+                    result_df = predict_batch(df)
+        
                 st.success(
                     "Batch prediction completed successfully!"
                 )
-
-                result_df = pd.read_csv(
-                    pd.io.common.BytesIO(response.content)
-                )
-
+        
                 st.divider()
-
-                # =====================================
-                # Prediction Summary
-                # =====================================
-
-                st.header("📊 Prediction Summary")
-
-                metric1, metric2, metric3, metric4 = st.columns(4)
-
-                with metric1:
-
-                    st.metric(
-                        "Customers Processed",
-                        f"{len(result_df):,}"
-                    )
-
-                with metric2:
-
-                    st.metric(
-                        "Segments Found",
-                        result_df["cluster_id"].nunique()
-                    )
-
-                with metric3:
-
-                    st.metric(
-                        "High Priority Customers",
-                        (result_df["priority"] == "High").sum()
-                    )
-
-                with metric4:
-
-                    st.metric(
-                        "Campaigns Generated",
-                        len(result_df)
-                    )
-
-                st.divider()
-
-                # =====================================
-                # Segment Distribution
-                # =====================================
-
-                st.header("📈 Segment Distribution")
-
-                segment_summary = (
-                    result_df["segment_name"]
-                    .value_counts()
-                    .reset_index()
-                )
-
-                segment_summary.columns = [
-                    "Segment",
-                    "Customers"
-                ]
-
-                st.dataframe(
-                    segment_summary,
-                    use_container_width=True,
-                    hide_index=True
-                )
-
-                st.divider()
-
-                # =====================================
-                # Business Recommendations Preview
-                # =====================================
-
-                st.header("🎯 Business Recommendations Preview")
-
-                preview_columns = [
-
-                    "segment_name",
-                    "priority",
-                    "recommended_campaign",
-                    "workflow_name"
-
-                ]
-
-                st.dataframe(
-                    result_df[preview_columns].head(10),
-                    use_container_width=True,
-                    hide_index=True
-                )
-
-                st.divider()
-
-                st.download_button(
-                    label="📥 Download Full Prediction Results",
-                    data=response.content,
-                    file_name="batch_prediction_results.csv",
-                    mime="text/csv",
-                    use_container_width=True
-                )
-
-            else:
-
+        
+            except Exception as e:
+        
                 st.error(
-                    "Batch prediction failed."
+                    f"Prediction failed: {e}"
                 )
+        
+                st.stop()
+
+            # =====================================
+            # Prediction Summary
+            # =====================================
+
+            st.header("📊 Prediction Summary")
+
+            metric1, metric2, metric3, metric4 = st.columns(4)
+
+            with metric1:
+                st.metric(
+                    "Customers Processed",
+                    f"{len(result_df):,}"
+                )
+
+            with metric2:
+                st.metric(
+                    "Segments Found",
+                    result_df["cluster_id"].nunique()
+                )
+
+            with metric3:
+                st.metric(
+                    "High Priority Customers",
+                    (result_df["priority"] == "High").sum()
+                )
+
+            with metric4:
+                st.metric(
+                    "Campaigns Generated",
+                    len(result_df)
+                )
+
+            st.divider()
+
+            # =====================================
+            # Segment Distribution
+            # =====================================
+
+            st.header("📈 Segment Distribution")
+
+            segment_summary = (
+                result_df["segment_name"]
+                .value_counts()
+                .reset_index()
+            )
+
+            segment_summary.columns = [
+                "Segment",
+                "Customers"
+            ]
+
+            st.dataframe(
+                segment_summary,
+                use_container_width=True,
+                hide_index=True
+            )
+
+            st.divider()
+
+            # =====================================
+            # Business Recommendations Preview
+            # =====================================
+
+            st.header("🎯 Business Recommendations Preview")
+
+            preview_columns = [
+
+                "segment_name",
+                "priority",
+                "recommended_campaign",
+                "workflow_name"
+
+            ]
+
+            st.dataframe(
+                result_df[preview_columns].head(10),
+                use_container_width=True,
+                hide_index=True
+            )
+
+            st.divider()
+
+            csv = result_df.to_csv(
+                index=False
+            ).encode("utf-8")
+
+            st.download_button(
+                label="📥 Download Full Prediction Results",
+                data=csv,
+                file_name="batch_prediction_results.csv",
+                mime="text/csv",
+                use_container_width=True
+            )
