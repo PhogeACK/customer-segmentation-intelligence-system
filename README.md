@@ -1,206 +1,263 @@
 # Customer Segmentation Intelligence System
 
-An end-to-end machine learning application that transforms raw customer data into actionable business intelligence through behavioral segmentation, marketing recommendations, and workflow automation.
+> **An end-to-end Machine Learning & Business Intelligence application that transforms raw customer marketing data into actionable business recommendations through behavioral customer segmentation.**
 
 ---
 
-## Additional Documentation
+# Overview
 
-This repository contains two complementary parts:
+The **Customer Segmentation Intelligence System** demonstrates how an unsupervised Machine Learning model can be integrated into a complete business application.
 
-- **Product Documentation** — this README describes the production application and software architecture.
-- **Machine Learning Research** — the complete experimentation process, EDA, feature engineering, clustering analysis, and model selection can be found in:
+Instead of only assigning customers to clusters, the system converts analytical results into practical business intelligence by automatically generating:
 
-📄 **[Machine Learning Research](notebooks/README_ML.pdf)**
+- Customer Personas
+- Marketing Campaign Recommendations
+- CRM Workflow Suggestions
+- Executive Business Insights
+- Interactive Analytics Dashboard
 
----
-# 1. Introduction
-
-...
-
----
-
-# 2. Key Features
-
-- Behavioral customer segmentation using K-Means clustering
-- Business persona generation
-- Marketing recommendation engine
-- Workflow recommendation engine
-- REST API for single and batch predictions
-- Modular architecture designed for future expansion
+The project combines the full machine learning lifecycle—from raw customer data to executive decision support—inside a production-style Streamlit application.
 
 ---
 
-# 3. System Overview
+# Business Problem
 
-...
+Marketing teams often manage thousands of customers without a clear understanding of behavioral differences.
 
-(Architecture image)
+Traditional clustering projects stop after assigning customers to clusters.
 
-Customer Data
-
-↓
-
-Prediction
-
-↓
-
-Customer Segment
-
-↓
-
-Business Intelligence
-
-↓
-
-API Response
-
-↓
-
-Marketing Action
+This project extends clustering into a complete decision-support system by translating model predictions into business actions that marketing and CRM teams can immediately use.
 
 ---
 
-# 4. Product Architecture
+# Application Features
 
-(Miro diagram)
+## Single Customer Prediction
 
-Workflow summary...
+Predict an individual customer's segment and instantly receive:
+
+- Customer Segment
+- Business Persona
+- Marketing Campaign Recommendation
+- CRM Workflow Recommendation
+- Business Objective
+- Opportunity & Risk Assessment
 
 ---
 
-# 5. Project Structure
+## Batch Customer Prediction
+
+Upload an entire customer dataset to:
+
+- Predict customer segments
+- Generate business intelligence for every customer
+- Export enriched prediction results
+- Prepare datasets for business analysis
+
+---
+
+## Analytics Dashboard
+
+Explore prediction results through interactive visualizations including:
+
+- Executive Overview
+- Customer Distribution
+- Segment Value Analysis
+- Customer Personas
+- Executive Key Insights
+
+---
+
+# Machine Learning Pipeline
 
 ```text
-Customer-Segmentation-Intelligence-System/
-│
-├── src/
-├── models/
-├── notebooks/
-├── docs/
-├── data/
-├── README.md
-└── requirements.txt
+Raw Customer Data
+        │
+        ▼
+Data Preprocessing
+        │
+        ▼
+Feature Engineering
+        │
+        ▼
+Categorical Encoding
+        │
+        ▼
+Feature Scaling
+        │
+        ▼
+K-Means Clustering
+        │
+        ▼
+Business Intelligence Engine
+        │
+        ▼
+Interactive Analytics Dashboard
 ```
 
 ---
 
-# 6. Prediction Pipeline
+# Application Architecture
 
-Receive customer
-
-↓
-
-Validate input
-
-↓
-
-Preprocess
-
-↓
-
-Load trained model
-
-↓
-
-Predict customer segment
-
-↓
-
-Generate customer persona
-
-↓
-
-Generate business recommendations
-
-↓
-
-Assign operational workflow
-
-↓
-
-Return enriched business intelligence response
-
----
-
-# 7. Business Intelligence Layer
-
-## Persona Engine
-
-...
-
-## Recommendation Engine
-
-...
-
-## Workflow Engine
-
-...
+```text
+                    Customer Dataset
+                           │
+                           ▼
+                    load_data.py
+                           │
+                           ▼
+                   preprocess.py
+                           │
+                           ▼
+              feature_engineering.py
+                           │
+                           ▼
+                    encoding.py
+                           │
+                           ▼
+                   transform.py
+                           │
+                           ▼
+                     train.py
+                           │
+                           ▼
+                   clustering.py
+                           │
+                           ▼
+                     predict.py
+                           │
+                           ▼
+             business_intelligence.py
+                   ├──────────────┐
+                   ▼              ▼
+         persona_engine.py   recommendation_engine.py
+                   │              │
+                   └──────┬───────┘
+                          ▼
+                workflow_engine.py
+                          │
+                          ▼
+                Streamlit Application
+```
 
 ---
 
-# 8. API
+# Project Structure
 
-## POST /predict
-
-...
-
-## POST /predict_batch
-
-...
+```text
+Customer-Segmentation-Intelligence-System/
+│
+├── pages/
+│   ├── Home.py
+│   ├── Single_Prediction.py
+│   ├── Batch_Prediction.py
+│   ├── Analytics_Dashboard.py
+│   └── About.py
+│
+├── src/
+    │
+    ├── app.py                      # FastAPI application entry point
+    ├── batch_predict.py            # Batch prediction pipeline for customer datasets
+    ├── business_intelligence.py    # Combines personas, campaigns, and workflows into business insights
+    ├── clustering.py               # K-Means model training and cluster prediction
+    ├── config.py                   # Global configuration and project file paths
+    ├── encoding.py                 # Categorical feature encoding
+    ├── feature_engineering.py      # Feature engineering and business feature creation
+    ├── load_data.py                # Dataset loading utilities
+    ├── persona_engine.py           # Customer persona generation
+    ├── predict.py                  # Single customer prediction pipeline
+    ├── preprocess.py               # Data cleaning and preprocessing
+    ├── recommendation_engine.py    # Marketing campaign recommendation engine
+    ├── save_artifacts.py           # Save trained models and preprocessing artifacts
+    ├── test_prediction.py          # Local prediction testing script
+    ├── train.py                    # End-to-end model training pipeline
+    ├── transform.py                # Feature scaling and data transformations
+    ├── workflow_engine.py          # CRM workflow recommendation engine
+    │
+├── models/
+├── notebooks/
+├── data/
+├── streamlit_app.py
+├── requirements.txt
+└── README.md
+```
 
 ---
 
-# 9. Example Output
-
-(JSON example)
-
----
-
-# 10. Running the Project
-
-1. Clone repository
-2. Install dependencies
-3. Run FastAPI
-4. Open Swagger UI
-5. Test endpoints
-
----
-
-# 11. Tech Stack
+# Technology Stack
 
 | Category | Technology |
 |-----------|------------|
-| Language | Python |
-| Machine Learning | scikit-learn |
-| Data Processing | pandas, NumPy |
-| API | FastAPI |
-| Model | K-Means |
-| Serialization | joblib |
-| Documentation | Markdown |
-| Visualization | Matplotlib, Plotly |
+| Programming Language | Python |
+| Data Processing | Pandas, NumPy |
+| Machine Learning | Scikit-learn |
+| Clustering Model | K-Means |
+| Model Serialization | Joblib |
+| Frontend | Streamlit |
+| Backend API | FastAPI |
+| Visualization | Streamlit Native Charts |
+| Development Environment | Jupyter Notebook |
 
 ---
 
-# 12. Roadmap
+# Installation
 
-## Version 1 ✅
+Clone the repository
 
-Customer Segmentation Intelligence System
+```bash
+git clone <repository-url>
+```
 
-## Version 2
+Install dependencies
 
-Interactive Business Dashboard
+```bash
+pip install -r requirements.txt
+```
 
-## Version 3
+Run the Streamlit application
 
-Business Automation (n8n)
+```bash
+streamlit run streamlit_app.py
+```
 
-## Version 4
+(Optional) Run the FastAPI service
 
-Dynamic Decision Engine
+```bash
+uvicorn api.main:app --reload
+```
 
-## Version 5
+---
+### Demo Dataset
 
-Cloud Deployment
+A sample dataset is provided in:
 
+```text
+data/sample_batch.csv
+```
+
+Upload this file through the **Batch Prediction** page to explore the complete prediction workflow and analytics dashboard.
+---
+
+# Future Improvements
+
+Potential enhancements include:
+
+- Real CRM integration
+- Alternative clustering algorithms
+- Automatic cluster monitoring
+- Campaign performance tracking
+- Explainable AI visualizations
+- Authentication and role-based access
+- Cloud deployment
+
+---
+
+# Author
+
+**Almog Cohen**
+
+Data Scientist
+
+Machine Learning • Customer Analytics • Business Intelligence
+
+This project was developed as a portfolio application demonstrating the complete lifecycle of an end-to-end machine learning solution—from raw customer data to executive business insights.

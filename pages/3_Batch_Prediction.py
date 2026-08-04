@@ -17,6 +17,11 @@ st.write(
     "and business recommendations for all customers."
 )
 
+st.info(
+    "💡 New to the application? A sample dataset is included in the repository "
+    "under **data/sample_batch.csv** so you can explore the full workflow."
+)
+
 st.divider()
 
 
